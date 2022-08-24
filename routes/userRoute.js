@@ -3,7 +3,7 @@ const router = express.Router();
 const con = require("../lib/db_connection");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const middleware = require("../middleware/auth");
+// const middleware = require("../middleware/auth");
 const nodemailer = require("nodemailer");
 
 // Get all users || With middleware
@@ -93,7 +93,7 @@ router.post("/register", (req, res) => {
   try {
     let sql = "INSERT INTO users SET ?";
 
-    const { username, email, password, avatar, user_type } = req.body;
+    const { username, email, password, avatar, user_type, about } = req.body;
 
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
@@ -104,6 +104,7 @@ router.post("/register", (req, res) => {
       password: hash,
       avatar,
       user_type,
+      about,
     };
 
     con.query(sql, user, (err, result) => {
@@ -188,6 +189,7 @@ router.put("/update-user/:id", (req, res) => {
           password: hash,
           avatar: req.body.avatar,
           user_type: req.body.user_type,
+          about: req.body.about,
         };
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
