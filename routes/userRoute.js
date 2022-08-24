@@ -73,11 +73,11 @@ router.get("/:id", (req, res) => {
 });
 
 // Delete User
-router.delete("/users/:id", (req, res) => {
+router.delete("/:id", (req, res) => {
   try {
     let sql = "DELETE FROM users WHERE ?";
     let user = {
-      user_id: req.params.id,
+      id: req.params.id,
     };
     con.query(sql, user, (err, result) => {
       if (err) throw err;
@@ -93,22 +93,23 @@ router.post("/register", (req, res) => {
   try {
     let sql = "INSERT INTO users SET ?";
 
-    const { fullname, email, password, user_type } = req.body;
+    const { username, email, password, avatar, user_type } = req.body;
 
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     let user = {
-      fullname,
+      username,
       email,
       // We sending the hash value to be stored witin the table
       password: hash,
+      avatar,
       user_type,
     };
 
     con.query(sql, user, (err, result) => {
       if (err) throw err;
       console.log(result);
-      res.send(`User ${(user.fullname, user.email)} created successfully`);
+      res.send(`User ${(user.username, user.email)} created successfully`);
     });
   } catch (error) {
     console.log(error);
@@ -139,7 +140,7 @@ router.post("/login", (req, res) => {
           const payload = {
             // user: {
             user_id: result[0].user_id,
-            fullname: result[0].fullname,
+            username: result[0].username,
             email: result[0].email,
             user_type: result[0].user_type,
             phone: result[0].phone,
@@ -173,23 +174,20 @@ router.put("/update-user/:id", (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
-      user_id: req.params.id,
+      id: req.params.id,
     };
     con.query(sql, user, (err, result) => {
       if (err) throw err;
       if (result.length !== 0) {
-        let updateSql = `UPDATE users SET ? WHERE user_id = ${req.params.id}`;
+        let updateSql = `UPDATE users SET ? WHERE id = ${req.params.id}`;
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(req.body.password, salt);
         let updateUser = {
-          fullname: req.body.fullname,
+          username: req.body.username,
           email: req.body.email,
           password: hash,
+          avatar: req.body.avatar,
           user_type: req.body.user_type,
-          phone: req.body.phone,
-          country: req.body.country,
-          billing_address: req.body.billing_address,
-          default_shipping_address: req.body.default_shipping_address,
         };
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
@@ -250,7 +248,7 @@ router.post("/forgot-psw", (req, res) => {
 
           subject: "Password Reset",
           html: `<div>
-          <h3>Hi ${result[0].fullname},</h3>
+          <h3>Hi ${result[0].username},</h3>
           <br>
           <h4>Click link below to reset your password</h4>
           <a href="https://user-images.githubusercontent.com/4998145/52377595-605e4400-2a33-11e9-80f1-c9f61b163c6a.png">
@@ -307,7 +305,7 @@ router.put("/reset-psw/:id", (req, res) => {
       const hash = bcrypt.hashSync(req.body.password, salt);
 
       const updatedPassword = {
-        fullname: result[0].fullname,
+        username: result[0].username,
         email: result[0].email,
         user_type: result[0].user_type,
         phone: result[0].phone,

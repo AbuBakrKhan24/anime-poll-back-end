@@ -56,15 +56,17 @@ router.get("/:id", (req, res) => {
 router.post("/add_category", (req, res) => {
   try {
     let sql = "INSERT INTO categories SET ?";
-    const { category_name, categories_description } = req.body;
+    const { category_name, categories_description, result_description } =
+      req.body;
     let category = {
       category_name,
       categories_description,
+      result_description,
     };
     con.query(sql, category, (err, result) => {
       if (err) throw err;
       console.log(result);
-      res.send(`Product ${category.category_name} was created successfully`);
+      res.send(`Category ${category.category_name} was created successfully`);
     });
   } catch (error) {
     console.log(error);
@@ -99,7 +101,7 @@ router.put("/update-user/:id", (req, res) => {
         let salt = bcrypt.genSaltSync(10);
         let hash = bcrypt.hashSync(req.body.password, salt);
         let updateUser = {
-          fullname: req.body.fullname,
+          username: req.body.username,
           email: req.body.email,
           password: hash,
           user_type: req.body.user_type,
