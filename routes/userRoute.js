@@ -24,7 +24,6 @@ const nodemailer = require("nodemailer");
 // });
 
 // Get All Users
-
 router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM users", (err, result) => {
@@ -110,7 +109,9 @@ router.post("/register", (req, res) => {
     con.query(sql, user, (err, result) => {
       if (err) throw err;
       console.log(result);
-      res.send(`User ${(user.username, user.email)} created successfully`);
+      res.json({
+        msg: `User ${(user.username, user.email)} created successfully`,
+      });
     });
   } catch (error) {
     console.log(error);
@@ -144,10 +145,8 @@ router.post("/login", (req, res) => {
             username: result[0].username,
             email: result[0].email,
             user_type: result[0].user_type,
-            phone: result[0].phone,
-            country: result[0].country,
-            billing_address: result[0].billing_address,
-            default_shipping_address: result[0].default_shipping_address,
+            about: result[0].about,
+            avatar: result[0].avatar,
             // },
           };
           // Creating a token and setting expiry date
