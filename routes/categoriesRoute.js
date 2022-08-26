@@ -39,7 +39,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   try {
     con.query(
-      `SELECT * FROM categories WHERE id = ${req.params.id}`,
+      `SELECT * FROM categories WHERE categories_id = ${req.params.id}`,
       (err, result) => {
         if (err) throw err;
         res.send(result);
