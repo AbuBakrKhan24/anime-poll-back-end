@@ -6,6 +6,7 @@ require("dotenv").config();
 const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/categoriesRoute");
 const electionsRoutes = require("./routes/electionsRoute");
+const pollscategoryRoutes = require("./routes/pollscategoryRoute");
 
 // Configure Server
 const app = express(); // Initialize express as an app variable
@@ -17,6 +18,7 @@ app.use(cors()); // Dont let local development give errors
 app.use("/users", userRoute);
 app.use("/categories", productRoute);
 app.use("/elections", electionsRoutes);
+app.use("/pollscategory", pollscategoryRoutes);
 
 // Set up server to start listening for requests
 app.listen(app.get("port"), () => {

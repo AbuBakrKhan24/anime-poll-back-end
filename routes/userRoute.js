@@ -140,7 +140,7 @@ router.post("/login", (req, res) => {
           // The information the should be stored inside token
           const payload = {
             // user: {
-            user_id: result[0].user_id,
+            id: result[0].id,
             username: result[0].username,
             email: result[0].email,
             about: result[0].about,
