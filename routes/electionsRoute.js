@@ -16,6 +16,20 @@ router.get("/", (req, res) => {
     res.status(400).send(error);
   }
 });
+router.get("/category/:id", (req, res) => {
+  try {
+    con.query(
+      `SELECT * FROM elections WHERE   category_ID = "${req.params.id}"`,
+      (err, result) => {
+        if (err) throw err;
+        res.send(result);
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
 // Get one election
 router.get("/:id", (req, res) => {
   try {
