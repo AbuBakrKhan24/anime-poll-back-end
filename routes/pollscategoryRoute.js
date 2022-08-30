@@ -54,16 +54,11 @@ router.get("/", (req, res) => {
 router.post("/add_polls", (req, res) => {
   try {
     let sql = "INSERT INTO polls SET ?";
-    const { election_ID, user_ID, category_ID } = req.body;
-    let poll = {
-      category_ID,
-      user_ID,
-      election_ID,
-    };
-    con.query(sql, poll, (err, result) => {
+
+    con.query(sql, req.body.poll, (err, result) => {
       if (err) throw err;
       console.log(result);
-      res.send(`Poll ${poll.poll_id} was created successfully`);
+      res.json(`Poll was created successfully`);
     });
   } catch (error) {
     console.log(error);
