@@ -129,4 +129,36 @@ router.put("/:id", (req, res) => {
     console.log(error);
   }
 });
+
+router.put("/vote_count/:id", (req, res) => {
+  try {
+    con.query(
+      `SELECT * FROM elections WHERE  elections_id = "${req.params.id}"`,
+      (err, result) => {
+        if (err) throw err;
+        if (result.length === 0) {
+          res.send("U didn't vote bitch");
+        } else {
+          try {
+            const vote_count = {
+              vote_count: req.body.vote_count,
+            };
+            con.query(
+              `UPDATE elections SET ? WHERE elections_id = "${result[0].elections_id}"`,
+              vote_count,
+              (err, result) => {
+                if (err) console.log(err);
+                res.send(result);
+              }
+            );
+          } catch (error) {}
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    res.status(400).send(error);
+  }
+});
+
 module.exports = router;
