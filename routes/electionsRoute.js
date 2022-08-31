@@ -47,7 +47,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Add election
-router.post("/add_eleccction", (req, res) => {
+router.post("/add_election", (req, res) => {
   try {
     let sql = "INSERT INTO elections SET ?";
     const {
