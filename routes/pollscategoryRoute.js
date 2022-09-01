@@ -50,50 +50,49 @@ router.get("/", (req, res) => {
 // });
 
 // Add product
-router.post("/add_polls", (req, res) => {
-  try {
-    console.log(req.body);
-    con.query(
-      `SELECT * FROM polls WHERE election_ID = "${req.body.election_ID}" AND category_ID = "${req.body.category_ID}" AND user_ID = "${req.body.user_ID}"`,
-      (err, result) => {
-        if (err) console.log(err);
-        if (result.length === 0) {
-          try {
-            let sql = "INSERT INTO polls SET ?";
+// router.post("/add_polls", (req, res) => {
+//   try {
+//     console.log(req.body);
+//     con.query(
+//       `SELECT * FROM polls WHERE election_ID = "${req.body.election_ID}" AND category_ID = "${req.body.category_ID}" AND user_ID = "${req.body.user_ID}"`,
+//       (err, result) => {
+//         if (err) console.log(err);
+//         if (result.length === 0) {
+//           try {
+//             let sql = "INSERT INTO polls SET ?";
 
-            con.query(sql, req.body, (err, result) => {
-              if (err) throw err;
-              console.log(result);
-              res.json(`Poll was created successfully`);
-            });
-          } catch (error) {
-            console.log(error);
-          }
-        } else {
-          res.send("User has Voted Okay!!!");
-        }
-      }
-    );
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+//             con.query(sql, req.body, (err, result) => {
+//               if (err) throw err;
+//               console.log(result);
+//               res.json(`Poll was created successfully`);
+//             });
+//           } catch (error) {
+//             console.log(error);
+//           }
+//         } else {
+//           res.send("User has Voted Okay!!!");
+//         }
+//       }
+//     );
+//   } catch (error) {
+//     res.status(400).send(error);
+//   }
+// });
 
 // Add product
-// router.post("/add_polls", (req, res) => {
+router.post("/add_polls", (req, res) => {
+  try {
+    let sql = "INSERT INTO polls SET ?";
 
-//     try {
-//       let sql = "INSERT INTO polls SET ?";
-
-//       con.query(sql, req.body.poll, (err, result) => {
-//         if (err) throw err;
-//         console.log(result);
-//         res.json(`Poll was created successfully`);
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   });
+    con.query(sql, req.body.poll, (err, result) => {
+      if (err) throw err;
+      console.log(result);
+      res.json(`Poll was created successfully`);
+    });
+  } catch (error) {
+    console.log(error);
+  }
+});
 // Delete one product
 router.delete("/:id", (req, res) => {
   {
