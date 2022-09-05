@@ -40,8 +40,7 @@ app.listen(app.get("port"), () => {
 
 // This is where we check URLs and Request methods to create functionality
 // GET '/' is always what will be displayed on the home page of your application
-// app.get("/", function (req, res) {
-// });
-//   res.sendFile(__dirname + "/" + "index.html");
-
+// app.get("/", function (req, res) {});
+// res.sendFile(__dirname + "/" + "index.html");
+module.exports=app
 module.exports.handler = serverless(app);
