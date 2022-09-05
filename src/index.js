@@ -16,11 +16,11 @@ app.use(cors()); // Dont let local development give errors
 // });
 // from youtube done
 // Import routes
-const userRoute = require("./routes/userRoute");
-const productRoute = require("./routes/categoriesRoute");
-const electionsRoutes = require("./routes/electionsRoute");
-const pollscategoryRoutes = require("./routes/pollscategoryRoute");
-const router = require("./routes/pollscategoryRoute");
+const userRoute = require("../routes/userRoute");
+const productRoute = require("../routes/categoriesRoute");
+const electionsRoutes = require("../routes/electionsRoute");
+const pollscategoryRoutes = require("../routes/pollscategoryRoute");
+const router = require("../routes/pollscategoryRoute");
 
 app.use(`/.netlify/functions/api`, router);
 

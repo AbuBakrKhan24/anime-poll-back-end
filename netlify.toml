@@ -1,7 +1,7 @@
 [build]
   base = "/"
   publish = "dist/"
-  functions = '/'
+  functions = 'src/'
 [[redirects]]
   from = "/*"
   to = "/index.html"
