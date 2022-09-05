@@ -2,6 +2,7 @@
 const express = require("express"); // Used to set up a server
 const cors = require("cors"); // Used to prevent errors when working locally
 require("dotenv").config();
+const serverless = require("serverless-http");
 
 // Configure Server
 const app = express(); // Initialize express as an app variable
@@ -19,12 +20,15 @@ const userRoute = require("./routes/userRoute");
 const productRoute = require("./routes/categoriesRoute");
 const electionsRoutes = require("./routes/electionsRoute");
 const pollscategoryRoutes = require("./routes/pollscategoryRoute");
+const router = require("./routes/pollscategoryRoute");
+
+app.use(`/.netlify/functions/api`, router);
 
 // Use individual routes when visiting these URLS
-app.use("/users", userRoute);
-app.use("/categories", productRoute);
-app.use("/elections", electionsRoutes);
-app.use("/pollscategory", pollscategoryRoutes);
+router.use("/users", userRoute);
+router.use("/categories", productRoute);
+router.use("/elections", electionsRoutes);
+router.use("/pollscategory", pollscategoryRoutes);
 
 // Set up server to start listening for requests
 app.listen(app.get("port"), () => {
@@ -39,3 +43,5 @@ app.use(express.static("public"));
 app.get("/", function (req, res) {
   res.sendFile(__dirname + "/" + "index.html");
 });
+
+module.exports.handler = serverless(app);
