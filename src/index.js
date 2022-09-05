@@ -36,12 +36,12 @@ app.listen(app.get("port"), () => {
   console.log("Press Ctrl+C to exit server");
 });
 
-app.use(express.static("public"));
+// app.use(express.static("public"));
 
 // This is where we check URLs and Request methods to create functionality
 // GET '/' is always what will be displayed on the home page of your application
-app.get("/", function (req, res) {
-  res.sendFile(__dirname + "/" + "index.html");
-});
+// app.get("/", function (req, res) {
+// });
+//   res.sendFile(__dirname + "/" + "index.html");
 
 module.exports.handler = serverless(app);
