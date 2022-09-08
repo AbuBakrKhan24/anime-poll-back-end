@@ -3,28 +3,9 @@ const router = express.Router();
 const con = require("../lib/db_connection");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-// const middleware = require("../middleware/auth");
 const nodemailer = require("nodemailer");
 
-// Get all users || With middleware
-// router.get("/", middleware, (req, res) => {
-//   if (req.user_type === "admin") {
-//     try {
-//       let sql = "SELECT * FROM users";
-//       con.query(sql, (err, result) => {
-//         if (err) throw err;
-//         res.send(result);
-//       });
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   } else {
-//     res.send("Not allowed");
-//   }
-// });
-
 // Get All Users
-
 router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM users", (err, result) => {
@@ -37,24 +18,6 @@ router.get("/", (req, res) => {
   }
 });
 
-// Single User || with middleware
-
-// router.get("/users", middleware, (req, res) => {
-//   res.send(req.user);
-//   try {
-//     let sql = "SELECT * FROM users WHERE ?";
-//     let user = {
-//       user_id: req.user.id,
-//     };
-//     con.query(sql, user, (err, result) => {
-//       if (err) throw err;
-//       res.send(result);
-//     });
-//   } catch (error) {
-//     console.log(error);
-//   }
-// });
-
 // Gets one user
 router.get("/:id", (req, res) => {
   try {
@@ -65,7 +28,6 @@ router.get("/:id", (req, res) => {
         res.send(result);
       }
     );
-    // res.send({ id: req.params.id });
   } catch (error) {
     console.log(error);
     res.status(400).send(error);
