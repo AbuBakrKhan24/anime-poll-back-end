@@ -127,7 +127,7 @@ router.post("/login", (req, res) => {
     con.query(sql, user, async (err, result) => {
       if (err) throw err;
       if (result.length === 0) {
-        res.send("email not found please register");
+        res.json({ msg: "email not found please register" });
       } else {
         const isMatch = await bcrypt.compare(
           req.body.password,
@@ -135,7 +135,7 @@ router.post("/login", (req, res) => {
         );
         // New code
         if (!isMatch) {
-          res.send("Password incorrect");
+          res.json({ msg: "Password incorrect" });
         } else {
           // The information the should be stored inside token
           const payload = {
@@ -190,10 +190,10 @@ router.put("/update-user/:id", (req, res) => {
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
           console.log(updated);
-          res.send("Successfully Updated");
+          res.json("Successfully Updated");
         });
       } else {
-        res.send("User not found");
+        res.json("User not found");
       }
     });
   } catch (error) {
