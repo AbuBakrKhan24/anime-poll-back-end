@@ -2,8 +2,8 @@ const express = require("express");
 const router = express.Router();
 const con = require("../lib/db_connection");
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const middleware = require("../middleware/auth");
+// const jwt = require("jsonwebtoken");
+// const middleware = require("../middleware/auth");
 
 // Get all categories
 router.get("/", (req, res) => {

@@ -168,7 +168,7 @@ router.post("/login", (req, res) => {
 });
 
 // Update user
-router.put("/update-user/:id", (req, res) => {
+router.patch("/update-user/:id", (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -185,15 +185,15 @@ router.put("/update-user/:id", (req, res) => {
           email: req.body.email,
           password: hash,
           avatar: req.body.avatar,
-          about: req.body.about
+          about: req.body.about,
         };
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
           console.log(updated);
-          res.json("Successfully Updated");
+          res.json({ msg: "Successfully Updated" });
         });
       } else {
-        res.json("User not found");
+        res.json({ msg: "User not found" });
       }
     });
   } catch (error) {
