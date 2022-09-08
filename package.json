@@ -26,6 +26,8 @@
     "serverless-http": "^3.0.2"
   },
   "devDependencies": {
+    "esbuild": "^0.15.7",
+    "esbuild-register": "^3.3.3",
     "prettier": "2.7.1"
   }
 }
