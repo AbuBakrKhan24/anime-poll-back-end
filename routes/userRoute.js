@@ -185,7 +185,7 @@ router.put("/update-user/:id", (req, res) => {
           email: req.body.email,
           password: hash,
           avatar: req.body.avatar,
-          about: req.body.about,
+          about: req.body.about
         };
         con.query(updateSql, updateUser, (err, updated) => {
           if (err) throw err;
