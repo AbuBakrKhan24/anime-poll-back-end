@@ -178,6 +178,7 @@ router.get("/users/verify", (req, res) => {
   });
 });
 
+// Wanted to add this still
 // Forgot password
 router.post("/forgot-psw", (req, res) => {
   try {
@@ -284,28 +285,6 @@ router.put("/reset-psw/:id", (req, res) => {
       });
     }
   });
-});
-
-// Add product to cart
-router.post("/:id/cart", (req, res) => {
-  try {
-    let sql = "INSERT INTO orders SET ?";
-    const { user_id, amount, order_status, cart } = req.body;
-    let jsonCart = JSON.stringify(cart);
-    let order = {
-      user_id,
-      amount,
-      order_status,
-      cart: jsonCart,
-    };
-    con.query(sql, order, (err, result) => {
-      if (err) throw err;
-      res.send("Added to cart successfully.");
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(400).send(error);
-  }
 });
 
 // New Routes
