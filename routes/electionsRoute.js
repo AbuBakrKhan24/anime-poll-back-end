@@ -4,7 +4,7 @@ const con = require("../lib/db_connection");
 const middleware = require("../middleware/auth");
 
 // Get All elections
-router.get("/", middleware, (req, res) => {
+router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM elections", (err, result) => {
       if (err) throw err;
@@ -16,7 +16,7 @@ router.get("/", middleware, (req, res) => {
   }
 });
 // Get single  election category
-router.get("/category/:id", middleware, (req, res) => {
+router.get("/category/:id", (req, res) => {
   try {
     con.query(
       `SELECT * FROM elections WHERE  category_ID = "${req.params.id}"`,
@@ -31,7 +31,7 @@ router.get("/category/:id", middleware, (req, res) => {
   }
 });
 // Get one election
-router.get("/:id", middleware, (req, res) => {
+router.get("/:id", (req, res) => {
   try {
     con.query(
       `SELECT * FROM elections WHERE elections_id = ${req.params.id}`,
@@ -47,7 +47,7 @@ router.get("/:id", middleware, (req, res) => {
 });
 
 // Add election
-router.post("/add_election", middleware, (req, res) => {
+router.post("/add_election", (req, res) => {
   try {
     let sql = "INSERT INTO elections SET ?";
     const {
@@ -76,7 +76,7 @@ router.post("/add_election", middleware, (req, res) => {
   }
 });
 // Delete one election
-router.delete("/:id", middleware, (req, res) => {
+router.delete("/:id", (req, res) => {
   try {
     con.query(
       `DELETE FROM orders WHERE elections_id = ${req.params.id}`,
@@ -91,7 +91,7 @@ router.delete("/:id", middleware, (req, res) => {
   }
 });
 // Update election
-router.put("/:id", middleware, (req, res) => {
+router.put("/:id", (req, res) => {
   const {
     title,
     category_ID,
@@ -131,7 +131,7 @@ router.put("/:id", middleware, (req, res) => {
 });
 
 // Add Vote Count
-router.put("/vote_count/:id", middleware, (req, res) => {
+router.put("/vote_count/:id", (req, res) => {
   try {
     con.query(
       `SELECT * FROM elections WHERE  elections_id = "${req.params.id}"`,

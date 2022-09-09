@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const middleware = require("../middleware/auth");
 
 // Get all categories
-router.get("/", middleware, (req, res) => {
+router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM categories", (err, result) => {
       if (err) throw err;
@@ -36,7 +36,7 @@ router.get("/", middleware, (req, res) => {
 // });
 
 // Single Product
-router.get("/:id", middleware, (req, res) => {
+router.get("/:id", (req, res) => {
   try {
     con.query(
       `SELECT * FROM categories WHERE categories_id = ${req.params.id}`,
@@ -53,7 +53,7 @@ router.get("/:id", middleware, (req, res) => {
 });
 
 // Add Category
-router.post("/add_category", middleware, (req, res) => {
+router.post("/add_category", (req, res) => {
   try {
     let sql = "INSERT INTO categories SET ?";
     const { category_name, categories_description, result_description } =

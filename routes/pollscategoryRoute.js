@@ -4,7 +4,7 @@ const con = require("../lib/db_connection");
 const middleware = require("../middleware/auth");
 
 // Get all polls
-router.get("/", middleware, (req, res) => {
+router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM polls", (err, result) => {
       if (err) throw err;
@@ -17,7 +17,7 @@ router.get("/", middleware, (req, res) => {
 });
 
 // Add Poll
-router.post("/add_polls", middleware, (req, res) => {
+router.post("/add_polls", (req, res) => {
   try {
     let sql = "INSERT INTO polls SET ?";
     con.query(sql, req.body, (err, result) => {
@@ -30,7 +30,7 @@ router.post("/add_polls", middleware, (req, res) => {
   }
 });
 // Delete one poll
-router.delete("/:id", middleware, (req, res) => {
+router.delete("/:id", (req, res) => {
   {
     con.query(
       `DELETE FROM polls WHERE poll_id = ${req.params.id}`,

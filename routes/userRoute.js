@@ -4,7 +4,7 @@ const con = require("../lib/db_connection");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const middleware = require("../middleware/auth");
+// const middleware = require("../middleware/auth");
 
 // Get All Users
 router.get("/", middleware, (req, res) => {
@@ -20,7 +20,7 @@ router.get("/", middleware, (req, res) => {
 });
 
 // Gets one user
-router.get("/:id", middleware, (req, res) => {
+router.get("/:id", (req, res) => {
   try {
     con.query(
       `SELECT * FROM users WHERE id = ${req.params.id}`,
@@ -36,7 +36,7 @@ router.get("/:id", middleware, (req, res) => {
 });
 
 // Delete User
-router.delete("/:id", middleware, (req, res) => {
+router.delete("/:id", (req, res) => {
   try {
     let sql = "DELETE FROM users WHERE ?";
     let user = {
@@ -131,7 +131,7 @@ router.post("/login", (req, res) => {
 });
 
 // Update user
-router.patch("/update-user/:id", middleware, (req, res) => {
+router.patch("/update-user/:id", (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -181,7 +181,7 @@ router.get("/users/verify", (req, res) => {
 
 // Wanted to add this still
 // Forgot password
-router.post("/forgot-psw", middleware, (req, res) => {
+router.post("/forgot-psw", (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -251,7 +251,7 @@ router.post("/forgot-psw", middleware, (req, res) => {
 });
 
 // Reset Password
-router.put("/reset-psw/:id", middleware, (req, res) => {
+router.put("/reset-psw/:id", (req, res) => {
   let sql = "SELECT * FROM users WHERE ?";
   let user = {
     user_id: req.params.id,
