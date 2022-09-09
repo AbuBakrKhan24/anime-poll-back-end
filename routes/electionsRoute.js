@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../lib/db_connection");
-const middleware = require("../middleware/auth");
+// const middleware = require("../middleware/auth");
 
 // Get All elections
 router.get("/", (req, res) => {

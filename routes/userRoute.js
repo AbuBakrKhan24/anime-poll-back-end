@@ -7,7 +7,7 @@ const nodemailer = require("nodemailer");
 // const middleware = require("../middleware/auth");
 
 // Get All Users
-router.get("/", middleware, (req, res) => {
+router.get("/", (req, res) => {
   try {
     con.query("SELECT * FROM users", (err, result) => {
       if (err) throw err;
