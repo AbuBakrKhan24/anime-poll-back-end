@@ -4,7 +4,7 @@ const con = require("../lib/db_connection");
 const middleware = require("../middleware/auth");
 
 // Get all polls
-router.get("/", (req, res) => {
+router.get("/", middleware, (req, res) => {
   try {
     con.query("SELECT * FROM polls", (err, result) => {
       if (err) throw err;

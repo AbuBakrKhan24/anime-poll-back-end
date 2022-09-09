@@ -52,7 +52,7 @@ router.delete("/:id", middleware, (req, res) => {
 });
 
 // Register
-router.post("/register", middleware, (req, res) => {
+router.post("/register", (req, res) => {
   try {
     let sql = "INSERT INTO users SET ?";
 
@@ -81,7 +81,7 @@ router.post("/register", middleware, (req, res) => {
 });
 
 // Login
-router.post("/login", middleware, (req, res) => {
+router.post("/login", (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -165,7 +165,7 @@ router.patch("/update-user/:id", middleware, (req, res) => {
 });
 
 // Verify
-router.get("/users/verify", middleware, (req, res) => {
+router.get("/users/verify", (req, res) => {
   const token = req.header("x-auth-token");
   jwt.verify(token, process.env.jwtSecret, (error, decodedToken) => {
     if (error) {
