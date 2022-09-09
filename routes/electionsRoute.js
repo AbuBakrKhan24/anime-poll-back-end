@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const con = require("../lib/db_connection");
-const jwt = require("jsonwebtoken");
 const middleware = require("../middleware/auth");
 
 // Get All elections
-router.get("/", (req, res) => {
+router.get("/", middleware, (req, res) => {
   try {
     con.query("SELECT * FROM elections", (err, result) => {
       if (err) throw err;
@@ -16,7 +15,8 @@ router.get("/", (req, res) => {
     res.status(400).send(error);
   }
 });
-router.get("/category/:id", (req, res) => {
+// Get single  election category
+router.get("/category/:id", middleware, (req, res) => {
   try {
     con.query(
       `SELECT * FROM elections WHERE  category_ID = "${req.params.id}"`,
@@ -31,7 +31,7 @@ router.get("/category/:id", (req, res) => {
   }
 });
 // Get one election
-router.get("/:id", (req, res) => {
+router.get("/:id", middleware, (req, res) => {
   try {
     con.query(
       `SELECT * FROM elections WHERE elections_id = ${req.params.id}`,
@@ -47,7 +47,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Add election
-router.post("/add_election", (req, res) => {
+router.post("/add_election", middleware, (req, res) => {
   try {
     let sql = "INSERT INTO elections SET ?";
     const {
@@ -76,7 +76,7 @@ router.post("/add_election", (req, res) => {
   }
 });
 // Delete one election
-router.delete("/:id", (req, res) => {
+router.delete("/:id", middleware, (req, res) => {
   try {
     con.query(
       `DELETE FROM orders WHERE elections_id = ${req.params.id}`,
@@ -91,7 +91,7 @@ router.delete("/:id", (req, res) => {
   }
 });
 // Update election
-router.put("/:id", (req, res) => {
+router.put("/:id", middleware, (req, res) => {
   const {
     title,
     category_ID,
@@ -130,7 +130,8 @@ router.put("/:id", (req, res) => {
   }
 });
 
-router.put("/vote_count/:id", (req, res) => {
+// Add Vote Count
+router.put("/vote_count/:id", middleware, (req, res) => {
   try {
     con.query(
       `SELECT * FROM elections WHERE  elections_id = "${req.params.id}"`,

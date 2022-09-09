@@ -4,9 +4,10 @@ const con = require("../lib/db_connection");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
+const middleware = require("../middleware/auth");
 
 // Get All Users
-router.get("/", (req, res) => {
+router.get("/", middleware, (req, res) => {
   try {
     con.query("SELECT * FROM users", (err, result) => {
       if (err) throw err;
@@ -19,7 +20,7 @@ router.get("/", (req, res) => {
 });
 
 // Gets one user
-router.get("/:id", (req, res) => {
+router.get("/:id", middleware, (req, res) => {
   try {
     con.query(
       `SELECT * FROM users WHERE id = ${req.params.id}`,
@@ -35,7 +36,7 @@ router.get("/:id", (req, res) => {
 });
 
 // Delete User
-router.delete("/:id", (req, res) => {
+router.delete("/:id", middleware, (req, res) => {
   try {
     let sql = "DELETE FROM users WHERE ?";
     let user = {
@@ -43,7 +44,7 @@ router.delete("/:id", (req, res) => {
     };
     con.query(sql, user, (err, result) => {
       if (err) throw err;
-      res.send("User successfully removed");
+      res.json({ msg: "User successfully removed" });
     });
   } catch (error) {
     console.log(error);
@@ -51,7 +52,7 @@ router.delete("/:id", (req, res) => {
 });
 
 // Register
-router.post("/register", (req, res) => {
+router.post("/register", middleware, (req, res) => {
   try {
     let sql = "INSERT INTO users SET ?";
 
@@ -80,7 +81,7 @@ router.post("/register", (req, res) => {
 });
 
 // Login
-router.post("/login", (req, res) => {
+router.post("/login", middleware, (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -130,7 +131,7 @@ router.post("/login", (req, res) => {
 });
 
 // Update user
-router.patch("/update-user/:id", (req, res) => {
+router.patch("/update-user/:id", middleware, (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -164,7 +165,7 @@ router.patch("/update-user/:id", (req, res) => {
 });
 
 // Verify
-router.get("/users/verify", (req, res) => {
+router.get("/users/verify", middleware, (req, res) => {
   const token = req.header("x-auth-token");
   jwt.verify(token, process.env.jwtSecret, (error, decodedToken) => {
     if (error) {
@@ -180,7 +181,7 @@ router.get("/users/verify", (req, res) => {
 
 // Wanted to add this still
 // Forgot password
-router.post("/forgot-psw", (req, res) => {
+router.post("/forgot-psw", middleware, (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
@@ -250,7 +251,7 @@ router.post("/forgot-psw", (req, res) => {
 });
 
 // Reset Password
-router.put("/reset-psw/:id", (req, res) => {
+router.put("/reset-psw/:id", middleware, (req, res) => {
   let sql = "SELECT * FROM users WHERE ?";
   let user = {
     user_id: req.params.id,
