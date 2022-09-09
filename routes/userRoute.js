@@ -130,7 +130,7 @@ router.post("/login", (req, res) => {
 });
 
 // Update user
-router.patch("/update-user/:id", (req, res) => {
+router.put("/update-user/:id", (req, res) => {
   try {
     let sql = "SELECT * FROM users WHERE ?";
     let user = {
